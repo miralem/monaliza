@@ -1,0 +1,22 @@
+{
+  "name": "monaliza",
+  "version": "1.0.0",
+  "homepage": "https://github.com/miralem/monaliza",
+  "authors": [
+    "miralem <mhalilovic@gmail.com>"
+  ],
+  "description": "Monaliza is a image faker library",
+  "keywords": [
+    "image",
+    "faker",
+    "monaliza"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
