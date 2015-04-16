@@ -1,4 +1,4 @@
-/*! monaliza - v1.0.0 - 2015-04-15
+/*! monaliza - v1.0.0 - 2015-04-16
 * https://github.com/miralem/monaliza
 * Copyright (c) 2015 ; Licensed  */
 //Get random image URL
@@ -35,5 +35,25 @@ var monaliza = {
 		}
 		
 		return images;
+	},
+	//download image
+	downloadImage: function(){
+
+		var link = document.createElement('a');
+		link.href = this.getImage();
+		link.download = 'image.png';
+		link.click();
+	},
+	//download multiple images
+	downloadImages: function(size){
+		var images = [];
+		images = this.getMultiple(size);
+		for(var i=0; i<images.length; i++){
+			
+			var link = document.createElement('a');
+			link.href = images[i];
+			link.download = 'image' +  i + '.png';
+			link.click();
+		}
 	}
 };
