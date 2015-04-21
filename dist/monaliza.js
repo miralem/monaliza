@@ -1,33 +1,87 @@
-/*! monaliza - v1.0.0 - 2015-04-16
+/*! monaliza - v1.0.0 - 2015-04-21
 * https://github.com/miralem/monaliza
 * Copyright (c) 2015 ; Licensed  */
 //Get random image URL
-//by Miralem Halilović <miralem@gmail.com
+var monaliza = function(optionsObj){
+  	this.initialize(optionsObj);
+}
 
-
-var monaliza = {
+monaliza.prototype = {
 	//options
 	options: {
 		useGrayImage: false,
 		imageWidth: 640,
-		imageHeigth: 480,	
+		imageHeight: 480,	
 		category: null
+		
 	},
+	
+	//available categories
+	categories : ['abstract', 'animals', 'business', 'cats', 'city', 'food', 'nightlife' ,'people', 'nature', 'sports', 'technics', 'transport'],
 	
 	//used to reload an uncached image
 	imageReloadId: 0,
 	
-	//get a single image
-	getImage: function(){		
-		var useGrayImage = this.options.useGrayImage ? 'g/' : '';		
-		var url = 'http://lorempixel.com/' + useGrayImage + this.options.imageWidth + '/' + this.options.imageHeigth + '?r=' + (new Date().getTime()) + '-' + this.imageReloadId;
-		this.imageReloadId += 1;
+	//default number of images for getMultiple()
+	defaultMultipleImagesCount: 10,
+	
+	//init
+	initialize: function(optionsObj){
+		if(!optionsObj)
+			return; 
 		
-		return url;
+		if(typeof optionsObj.useGrayImage  !== 'undefined'){			
+			this.options.useGrayImage = optionsObj.useGrayImage;
+		}
+		
+		if(typeof optionsObj.imageWidth  !== 'undefined'){
+			if( this.isNumber(optionsObj.imageWidth))
+				this.options.imageWidth = optionsObj.imageWidth;
+		}
+		
+		if(typeof optionsObj.imageHeight !== 'undefined'){
+			if(this.isNumber(optionsObj.imageHeight))
+				this.options.imageHeight = optionsObj.imageHeight;
+		}
+		
+		if(optionsObj.category != null){
+			if(this.categories.indexOf(optionsObj.category) > -1){
+				this.options.category = optionsObj.category;
+			} else {
+				console.log("Category doesn't exists.");
+			}
+ 		}
 	},
 	
+	//check if number
+	isNumber : function (n) {
+	  return !isNaN(parseFloat(n)) && isFinite(n);
+	},
+	
+	//get a single image
+	getImage: function(){		
+			//use color
+			var useGrayImage = this.options.useGrayImage ? 'g/' : '';		
+			
+			//use category
+			var useCategory = this.options.category ? '/' + this.options.category : '';
+			
+			var url = 'http://lorempixel.com/' 
+				+ useGrayImage 
+				+ this.options.imageWidth 
+				+ '/' + this.options.imageHeight 
+				+ useCategory 
+				+ '?r=' + (new Date().getTime()) + '-' + this.imageReloadId;
+				
+			this.imageReloadId += 1;
+		
+			return url;
+	},
+
 	//get multiple images
 	getMultiple: function(size){	
+		var size = size || this.defaultMultipleImagesCount;
+	
 		var images = [];
 				
 		for(var i = 1; i <= size; i++){
